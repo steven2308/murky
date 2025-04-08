@@ -82,6 +82,10 @@ contract MerkleScript is Script, ScriptHelper {
                     uint256 value = vm.parseUint(elements.readString(getValuesByIndex(i, j)));
                     data[j] = bytes32(value);
                     input[j] = vm.toString(value);
+                } else if (compareStrings(types[j], "bytes32")) {
+                    bytes32 value = elements.readBytes32(getValuesByIndex(i, j));
+                    data[j] = value;
+                    input[j] = vm.toString(value);
                 }
             }
 
@@ -101,6 +105,6 @@ contract MerkleScript is Script, ScriptHelper {
         output = stringArrayToArrayString(outputs);
         vm.writeFile(string.concat(vm.projectRoot(), outputPath), output);
 
-        console.log("DONE: The output is found at %s", inputPath);
+        console.log("DONE: The output is found at %s", outputPath);
     }
 }
